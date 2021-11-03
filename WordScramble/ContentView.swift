@@ -16,6 +16,17 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    var scoreMessage: String {
+        let wordCount = usedWords.count
+        var letterCount = 0
+        
+        for word in usedWords {
+            letterCount += word.count
+        }
+        
+        return "You spelled \(wordCount) \(wordCount == 1 ? "word" : "words") (\(letterCount) letters in total)"
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -30,6 +41,10 @@ struct ContentView: View {
                             Image(systemName: "\(word.count).circle")
                             Text(word)
                         }
+                    }
+                } header: {
+                    if !usedWords.isEmpty {
+                        Text(scoreMessage)
                     }
                 }
             }
