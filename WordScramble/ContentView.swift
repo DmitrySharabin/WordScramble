@@ -49,6 +49,16 @@ struct ContentView: View {
         
         guard answer.count > 0 else { return }
         
+        guard isLongEnough(word: answer) else {
+            wordError(title: "Word too short", message: "I'm sure you know words of 3 letters minimum, right!")
+            return
+        }
+        
+        guard isNotRootWord(word: answer) else {
+            wordError(title: "Word not allowed", message: "You know you can't use the source word, don't you?")
+            return
+        }
+        
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original!")
             return
@@ -81,6 +91,14 @@ struct ContentView: View {
         }
         
         fatalError("Could not load start.txt from bundle.")
+    }
+    
+    func isLongEnough(word: String) -> Bool {
+        word.count >= 3
+    }
+    
+    func isNotRootWord(word: String) -> Bool {
+        word != rootWord
     }
     
     func isOriginal(word: String) -> Bool {
